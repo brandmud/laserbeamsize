@@ -348,8 +348,8 @@ def plot_image_analysis(o_image,
     im = plt.imshow(image, cmap=cmap)
     plt.colorbar(im, fraction=0.046 * v_s / h_s, pad=0.04)
     plt.clim(min_, max_)
-    plt.xlabel('Position (pixels)')
-    plt.ylabel('Position (pixels)')
+    plt.xlabel('Position [pixels]')
+    plt.ylabel('Position [pixels]')
     plt.title(title)
 
     # working image
