@@ -1,6 +1,3 @@
-# pylint: disable=invalid-name
-# pylint: disable=consider-using-f-string
-
 """
 Routines for removing background for beam analysis.
 
@@ -13,7 +10,7 @@ all un-illuminated pixels::
     >>> import imageio.v3 as iio
     >>> import laserbeamsize as lbs
     >>>
-    >>> file = "https://github.com/scottprahl/laserbeamsize/raw/master/docs/t-hene.pgm"
+    >>> file = "https://github.com/scottprahl/laserbeamsize/raw/main/docs/t-hene.pgm"
     >>> image = iio.imread(file)
     >>>
     >>> mean, stdev = lbs.corner_background(image)
@@ -28,7 +25,7 @@ return an image with the average of the un-illuminated pixels subtracted::
     >>> import imageio.v3 as iio
     >>> import laserbeamsize as lbs
     >>>
-    >>> file = "https://github.com/scottprahl/laserbeamsize/raw/master/docs/t-hene.pgm"
+    >>> file = "https://github.com/scottprahl/laserbeamsize/raw/main/docs/t-hene.pgm"
     >>> image = iio.imread(file)
     >>>
     >>> clean_image = subtract_iso_background(image)
@@ -106,6 +103,7 @@ def subtract_constant(original,
     Args:
         original : the image to work with
         background: value to subtract every pixel
+        iso_noise: if True then allow negative pixel values
     Returns:
         image: 2D float array with constant background subtracted
     """
@@ -209,8 +207,9 @@ def image_background2(image,
 
     Args:
         image : the image to work with
+        fraction: the fractional size of corner rectangles
         nT: how many standard deviations to subtract
-        corner_fraction: the fractional size of corner rectangles
+
     Returns:
         background: average background value across image
     """
@@ -255,6 +254,8 @@ def subtract_iso_background(image,
         image : the image to work with
         corner_fraction: the fractional size of corner rectangles
         nT: how many standard deviations to subtract
+        iso_noise: if True then allow negative pixel values
+
     Returns:
         image: 2D array with background subtracted
     """
@@ -296,6 +297,8 @@ def subtract_corner_background(image,
         image : the image to work with
         corner_fraction: the fractional size of corner rectangles
         nT: how many standard deviations to subtract
+        iso_noise: if True then allow negative pixel values
+
     Returns:
         image: 2D array with background subtracted
     """

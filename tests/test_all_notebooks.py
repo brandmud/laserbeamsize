@@ -18,7 +18,7 @@ Original version is licensed under GPL 3.0 so this modified one is as well.
 
 The original can be located at::
 
-    https://github.com/alchemyst/Dynamics-and-Control/blob/master/test_all_notebooks.py
+    https://github.com/alchemyst/Dynamics-and-Control/blob/main/test_all_notebooks.py
 """
 import os.path
 import pathlib
@@ -45,9 +45,10 @@ notebooks = [notebook for notebook in searchpath.glob('docs/*.ipynb')
 notebooks.sort()
 ids = [str(n) for n in notebooks]
 
+
 @pytest.mark.parametrize("notebook", notebooks, ids=ids)
 def test_run_notebook(notebook):
-    """Read and execute notebook
+    """Read and execute notebook.
 
     The method here is directly from the nbconvert docs
 

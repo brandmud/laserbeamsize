@@ -1,8 +1,3 @@
-# pylint: disable=invalid-name
-# pylint: disable=too-many-locals
-# pylint: disable=too-many-arguments
-# pylint: disable=consider-using-f-string
-
 """
 A module for finding the beam size in an monochrome image.
 
@@ -17,7 +12,7 @@ Finding the center and diameters of a beam in a monochrome image is simple::
     >>> import imageio.v3 as iio
     >>> import laserbeamsize as lbs
     >>>
-    >>> file = "https://github.com/scottprahl/laserbeamsize/raw/master/docs/t-hene.pgm"
+    >>> file = "https://github.com/scottprahl/laserbeamsize/raw/main/docs/t-hene.pgm"
     >>> image = iio.imread(file)
     >>>
     >>> x, y, dx, dy, phi = lbs.beam_size(image)
@@ -51,7 +46,7 @@ def basic_beam_size(original):
     When background noise dominates then a diameter of 1 is returned.
 
     Args:
-        image: 2D array of image with beam spot
+        original: 2D array of image with beam spot
     Returns:
         xc: horizontal center of beam
         yc: vertical center of beam
@@ -178,6 +173,8 @@ def beam_size(image,
         nT: (optional) the multiple of background noise to remove
         max_iter: (optional) maximum number of iterations.
         phi: (optional) fixed tilt of ellipse in radians
+        iso_noise: if True then allow negative pixel values
+
     Returns:
         xc: horizontal center of beam
         yc: vertical center of beam
