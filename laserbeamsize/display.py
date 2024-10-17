@@ -116,10 +116,16 @@ def plot_beam_diagram():
     plt.axis('off')
 
 
-def plot_visible_dotted_line(xpts, ypts):
-    """Draw a dotted line that is is visible against images."""
-    plt.plot(xpts, ypts, '-', color='#FFD700')
-    plt.plot(xpts, ypts, ':', color='#0057B8')
+def plot_visible_dotted_line(xpts, ypts, color=('#FFD700', '#0057B8')):
+    """Draw a dotted line that is is visible against images.
+    
+    Args:
+        xpts: x-coordinates of the line
+        ypts: y-coordinates of the line
+        color: (optional) color of the line (a tuple describing the colors)
+    """
+    plt.plot(xpts, ypts, '-', color=color)
+    plt.plot(xpts, ypts, ':', color=color)
 
 
 def plot_image_and_fit(o_image,
