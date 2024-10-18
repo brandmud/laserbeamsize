@@ -350,8 +350,8 @@ def plot_image_analysis(o_image,
     minor_color = '#00FF00'
     major_color = '#FF0000'
 
-    plt.subplots(2, 2, figsize=(12, 12))
-    plt.subplots_adjust(right=1.0)
+    plt.subplots(2, 2, figsize=(9, 9))
+    # plt.subplots_adjust(right=1.0)
 
     # original image
     plt.subplot(2, 2, 1)
@@ -376,8 +376,8 @@ def plot_image_analysis(o_image,
     # major axis
     plot_visible_dotted_line(xp[3:] - xc_s, yp[3:] - yc_s, color=(major_color, major_color))
 
-    xp, yp = lbs.rotated_rect_arrays(xc, yc, dx, dy, phi) * scale
-    plot_visible_dotted_line(xp - xc_s, yp - yc_s)
+    # xp, yp = lbs.rotated_rect_arrays(xc, yc, dx, dy, phi) * scale
+    # plot_visible_dotted_line(xp - xc_s, yp - yc_s)
 
     plt.colorbar(im, fraction=0.046 * v_s / h_s, pad=0.04)
 #    plt.clim(min_, max_)
@@ -393,8 +393,8 @@ def plot_image_analysis(o_image,
     baseline = a * np.exp(-2) + bkgnd
 
     plt.subplot(2, 2, 3)
-    plt.plot(s * scale, z, 'sb', markersize=2, color=major_color)
-    plt.plot(s * scale, z, '-b', lw=0.5, color=major_color)
+    plt.plot(s * scale, z, 's', markersize=2, color=major_color)
+    plt.plot(s * scale, z, '-', lw=0.5, color=major_color)
     # z_values = bkgnd + a * np.exp(-2 * (s / r_major)**2)
     # plt.plot(s * scale, z_values, 'k')
     # plt.annotate('', (-r_mag_s, baseline), (r_mag_s, baseline),
@@ -412,8 +412,8 @@ def plot_image_analysis(o_image,
     baseline = a * np.exp(-2) + bkgnd
 
     plt.subplot(2, 2, 4)
-    plt.plot(s * scale, z, 'sb', markersize=2, color=minor_color)
-    plt.plot(s * scale, z, '-b', lw=0.5, color=minor_color)
+    plt.plot(s * scale, z, 's', markersize=2, color=minor_color)
+    plt.plot(s * scale, z, '-', lw=0.5, color=minor_color)
     # z_values = bkgnd + a * np.exp(-2 * (s / r_minor)**2)
     # plt.plot(s * scale, z_values, 'k')
     # plt.annotate('', (-r_min_s, baseline), (r_min_s, baseline),
