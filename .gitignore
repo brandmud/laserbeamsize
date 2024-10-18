@@ -3,6 +3,7 @@
 .tox
 .eggs
 .virtual_documents
+.vscode
 dist
 laserbeamsize/__pycache__
 laserbeamsize.egg-info
