@@ -124,8 +124,8 @@ def plot_visible_dotted_line(xpts, ypts, color=('#FFD700', '#0057B8')):
         ypts: y-coordinates of the line
         color: (optional) color of the line (a tuple describing the colors)
     """
-    plt.plot(xpts, ypts, '-', color=color)
-    plt.plot(xpts, ypts, ':', color=color)
+    plt.plot(xpts, ypts, '-', color=color[0])
+    plt.plot(xpts, ypts, ':', color=color[1])
 
 
 def plot_image_and_fit(o_image,
@@ -346,6 +346,10 @@ def plot_image_analysis(o_image,
     r_min_s = r_minor * scale
     d_min_s = r_min_s * 2
 
+    # define the colors
+    minor_color = '#00FF00'
+    major_color = '#FF0000'
+
     plt.subplots(2, 2, figsize=(12, 12))
     plt.subplots_adjust(right=1.0)
 
@@ -365,8 +369,12 @@ def plot_image_analysis(o_image,
     xp, yp = lbs.ellipse_arrays(xc, yc, dx, dy, phi) * scale
     plot_visible_dotted_line(xp - xc_s, yp - yc_s)
 
+    # plot minor and major axes
     xp, yp = lbs.axes_arrays(xc, yc, dx, dy, phi) * scale
-    plot_visible_dotted_line(xp - xc_s, yp - yc_s)
+    # minor axis
+    plot_visible_dotted_line(xp[:2] - xc_s, yp[:2] - yc_s, color=(minor_color, minor_color))
+    # major axis
+    plot_visible_dotted_line(xp[3:] - xc_s, yp[3:] - yc_s, color=(major_color, major_color))
 
     xp, yp = lbs.rotated_rect_arrays(xc, yc, dx, dy, phi) * scale
     plot_visible_dotted_line(xp - xc_s, yp - yc_s)
@@ -385,8 +393,8 @@ def plot_image_analysis(o_image,
     baseline = a * np.exp(-2) + bkgnd
 
     plt.subplot(2, 2, 3)
-    plt.plot(s * scale, z, 'sb', markersize=2)
-    plt.plot(s * scale, z, '-b', lw=0.5)
+    plt.plot(s * scale, z, 'sb', markersize=2, color=major_color)
+    plt.plot(s * scale, z, '-b', lw=0.5, color=major_color)
     # z_values = bkgnd + a * np.exp(-2 * (s / r_major)**2)
     # plt.plot(s * scale, z_values, 'k')
     # plt.annotate('', (-r_mag_s, baseline), (r_mag_s, baseline),
@@ -404,8 +412,8 @@ def plot_image_analysis(o_image,
     baseline = a * np.exp(-2) + bkgnd
 
     plt.subplot(2, 2, 4)
-    plt.plot(s * scale, z, 'sb', markersize=2)
-    plt.plot(s * scale, z, '-b', lw=0.5)
+    plt.plot(s * scale, z, 'sb', markersize=2, color=minor_color)
+    plt.plot(s * scale, z, '-b', lw=0.5, color=minor_color)
     # z_values = bkgnd + a * np.exp(-2 * (s / r_minor)**2)
     # plt.plot(s * scale, z_values, 'k')
     # plt.annotate('', (-r_min_s, baseline), (r_min_s, baseline),
