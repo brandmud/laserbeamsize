@@ -308,7 +308,7 @@ def plot_image_analysis(o_image,
         label = 'Pixels from Center'
     else:
         scale = pixel_size
-        unit_str = '[%s]' % units
+        unit_str = '(%s)' % units
         label = 'Distance from Center %s' % unit_str
 
     # crop image as appropriate
@@ -350,7 +350,7 @@ def plot_image_analysis(o_image,
     minor_color = '#00FF00'
     major_color = '#FF0000'
 
-    plt.subplots(2, 2, figsize=(9, 9))
+    plt.subplots(2, 2, figsize=(7, 6))
     # plt.subplots_adjust(right=1.0)
 
     # original image
@@ -358,8 +358,8 @@ def plot_image_analysis(o_image,
     im = plt.imshow(image, cmap=cmap)
     plt.colorbar(im, fraction=0.046 * v_s / h_s, pad=0.04)
     plt.clim(min_, max_)
-    plt.xlabel('Position [pixels]')
-    plt.ylabel('Position [pixels]')
+    plt.xlabel('Position (pixels)')
+    plt.ylabel('Position (pixels)')
     plt.title(title)
 
     # working image
@@ -372,9 +372,9 @@ def plot_image_analysis(o_image,
     # plot minor and major axes
     xp, yp = lbs.axes_arrays(xc, yc, dx, dy, phi) * scale
     # minor axis
-    plot_visible_dotted_line(xp[:2] - xc_s, yp[:2] - yc_s, color=(minor_color, minor_color))
+    plot_visible_dotted_line(xp[3:] - xc_s, yp[3:] - yc_s, color=(minor_color, minor_color))
     # major axis
-    plot_visible_dotted_line(xp[3:] - xc_s, yp[3:] - yc_s, color=(major_color, major_color))
+    plot_visible_dotted_line(xp[:2] - xc_s, yp[:2] - yc_s, color=(major_color, major_color))
 
     # xp, yp = lbs.rotated_rect_arrays(xc, yc, dx, dy, phi) * scale
     # plot_visible_dotted_line(xp - xc_s, yp - yc_s)
@@ -383,9 +383,9 @@ def plot_image_analysis(o_image,
 #    plt.clim(min_, max_)
     plt.xlim(-xc_s, h_s - xc_s)
     plt.ylim(v_s - yc_s, -yc_s)
-    plt.xlabel(label)
-    plt.ylabel(label)
-    plt.title('Image w/o background, center at (%.0f, %.0f) %s' % (xc_s, yc_s, units))
+    plt.xlabel('x (%s)' % units)
+    plt.ylabel('y (%s)' % units)
+    plt.title('Image w/o background')
 
     # plot of values along semi-major axis
     _, _, z, s = lbs.major_axis_arrays(image, xc, yc, dx, dy, phi)
@@ -401,8 +401,8 @@ def plot_image_analysis(o_image,
                 #  arrowprops={'arrowstyle': '<->'})
     # plt.text(0, 1.1 * baseline, 'dx=%.0f %s' % (d_mag_s, units), va='bottom', ha='center')
     # plt.text(0, bkgnd + a, '  Gaussian Fit')
-    plt.xlabel('Distance from Center [%s]' % units)
-    plt.ylabel('Pixel Intensity Along Semi-Major Axis')
+    plt.xlabel('x (%s)' % units)
+    plt.ylabel('Pixel intensity') 
     plt.title('Semi-Major Axis')
     # plt.gca().set_ylim(bottom=0)
 
@@ -420,8 +420,8 @@ def plot_image_analysis(o_image,
     #              arrowprops={'arrowstyle': '<->'})
     # plt.text(0, 1.1 * baseline, 'dy=%.0f %s' % (d_min_s, units), va='bottom', ha='center')
     # plt.text(0, bkgnd + a, '  Gaussian Fit')
-    plt.xlabel('Distance from Center [%s]' % units)
-    plt.ylabel('Pixel Intensity Along Semi-Minor Axis')
+    plt.xlabel('y (%s)' % units)
+    plt.ylabel('Pixel intensity')
     plt.title('Semi-Minor Axis')
     # plt.gca().set_ylim(bottom=0)
 
