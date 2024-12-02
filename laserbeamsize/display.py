@@ -385,7 +385,7 @@ def plot_image_analysis(o_image,
     plt.ylim(v_s - yc_s, -yc_s)
     plt.xlabel('x (%s)' % units)
     plt.ylabel('y (%s)' % units)
-    plt.title('Image w/o background')
+    plt.title('Background corrected')
 
     # plot of values along semi-major axis
     _, _, z, s = lbs.major_axis_arrays(image, xc, yc, dx, dy, phi)
@@ -403,7 +403,7 @@ def plot_image_analysis(o_image,
     # plt.text(0, bkgnd + a, '  Gaussian Fit')
     plt.xlabel('x (%s)' % units)
     plt.ylabel('Pixel intensity') 
-    plt.title('Semi-Major Axis')
+    plt.title('Major Axis')
     # plt.gca().set_ylim(bottom=0)
 
     # plot of values along semi-minor axis
@@ -422,7 +422,7 @@ def plot_image_analysis(o_image,
     # plt.text(0, bkgnd + a, '  Gaussian Fit')
     plt.xlabel('y (%s)' % units)
     plt.ylabel('Pixel intensity')
-    plt.title('Semi-Minor Axis')
+    plt.title('Minor Axis')
     # plt.gca().set_ylim(bottom=0)
 
     # add more horizontal space between plots
