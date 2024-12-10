@@ -38,3 +38,4 @@ from .display import *
 from .gaussian import *
 from .m2_fit import *
 from .m2_display import *
+from .bessel_fit import *

@@ -395,12 +395,16 @@ def plot_image_analysis(o_image,
     plt.subplot(2, 2, 3)
     plt.plot(s * scale, z, 's', markersize=2, color=major_color)
     plt.plot(s * scale, z, '-', lw=0.5, color=major_color)
+    # ~~~~~
     # z_values = bkgnd + a * np.exp(-2 * (s / r_major)**2)
-    # plt.plot(s * scale, z_values, 'k')
+    fit_params = lbs.fit_bessel(s*scale, z)
+    z_values = lbs.bessel_fit_function(s*scale, *fit_params)
+    plt.plot(s * scale, z_values, 'k')
     # plt.annotate('', (-r_mag_s, baseline), (r_mag_s, baseline),
-                #  arrowprops={'arrowstyle': '<->'})
+    #              arrowprops={'arrowstyle': '<->'})
     # plt.text(0, 1.1 * baseline, 'dx=%.0f %s' % (d_mag_s, units), va='bottom', ha='center')
-    # plt.text(0, bkgnd + a, '  Gaussian Fit')
+    plt.text(0, bkgnd + a, '    Bessel Fit')
+    # ~~~~~
     plt.xlabel('x (%s)' % units)
     plt.ylabel('Pixel intensity') 
     plt.title('Major Axis')
@@ -414,12 +418,16 @@ def plot_image_analysis(o_image,
     plt.subplot(2, 2, 4)
     plt.plot(s * scale, z, 's', markersize=2, color=minor_color)
     plt.plot(s * scale, z, '-', lw=0.5, color=minor_color)
-    # z_values = bkgnd + a * np.exp(-2 * (s / r_minor)**2)
-    # plt.plot(s * scale, z_values, 'k')
+    # ~~~~~
+    z_values = bkgnd + a * np.exp(-2 * (s / r_minor)**2)
+    fit_params = lbs.fit_bessel(s*scale, z)
+    z_values = lbs.bessel_fit_function(s*scale, *fit_params)
+    plt.plot(s * scale, z_values, 'k')
     # plt.annotate('', (-r_min_s, baseline), (r_min_s, baseline),
     #              arrowprops={'arrowstyle': '<->'})
     # plt.text(0, 1.1 * baseline, 'dy=%.0f %s' % (d_min_s, units), va='bottom', ha='center')
-    # plt.text(0, bkgnd + a, '  Gaussian Fit')
+    plt.text(0, bkgnd + a, '    Bessel Fit')
+    # ~~~~~
     plt.xlabel('y (%s)' % units)
     plt.ylabel('Pixel intensity')
     plt.title('Minor Axis')
