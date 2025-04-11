@@ -36,12 +36,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import laserbeamsize as lbs
 
-__all__ = ('beam_ellipticity',
-           'plot_beam_diagram',
-           'plot_image_analysis',
-           'plot_image_and_fit',
-           'plot_image_montage'
-           )
+__all__ = (
+    "beam_ellipticity",
+    "plot_beam_diagram",
+    "plot_image_analysis",
+    "plot_image_and_fit",
+    "plot_image_montage",
+)
 
 
 def beam_ellipticity(dx, dy):
@@ -84,62 +85,80 @@ def plot_beam_diagram():
 
     # If the aspect ratio is not `equal` then the major and minor radii
     # do not appear to be orthogonal to each other!
-    plt.axes().set_aspect('equal')
+    plt.axes().set_aspect("equal")
 
     xp, yp = lbs.ellipse_arrays(xc, yc, dx, dy, theta)
-    plt.plot(xp, yp, 'k', lw=2)
+    plt.plot(xp, yp, "k", lw=2)
 
     xp, yp = lbs.rotated_rect_arrays(xc, yc, dx, dy, theta)
-    plt.plot(xp, yp, ':b', lw=2)
+    plt.plot(xp, yp, ":b", lw=2)
 
     sint = np.sin(theta) / 2
     cost = np.cos(theta) / 2
-    plt.plot([xc - dx * cost, xc + dx * cost], [yc + dx * sint, yc - dx * sint], ':b')
-    plt.plot([xc + dy * sint, xc - dy * sint], [yc + dy * cost, yc - dy * cost], ':r')
+    plt.plot([xc - dx * cost, xc + dx * cost], [yc + dx * sint, yc - dx * sint], ":b")
+    plt.plot([xc + dy * sint, xc - dy * sint], [yc + dy * cost, yc - dy * cost], ":r")
 
     # draw axes
-    plt.annotate("x'", xy=(-25, 0), xytext=(25, 0),
-                 arrowprops={'arrowstyle': '<-'}, va='center', fontsize=16)
+    plt.annotate(
+        "x'",
+        xy=(-25, 0),
+        xytext=(25, 0),
+        arrowprops={"arrowstyle": "<-"},
+        va="center",
+        fontsize=16,
+    )
 
-    plt.annotate("y'", xy=(0, 25), xytext=(0, -25),
-                 arrowprops={'arrowstyle': '<-'}, ha='center', fontsize=16)
+    plt.annotate(
+        "y'",
+        xy=(0, 25),
+        xytext=(0, -25),
+        arrowprops={"arrowstyle": "<-"},
+        ha="center",
+        fontsize=16,
+    )
 
-    plt.annotate(r'$\phi$', xy=(13, -2.5), fontsize=16)
-    plt.annotate('', xy=(15.5, 0), xytext=(14, -8.0),
-                 arrowprops={'arrowstyle': '<-', 'connectionstyle': 'arc3, rad=-0.2'})
+    plt.annotate(r"$\phi$", xy=(13, -2.5), fontsize=16)
+    plt.annotate(
+        "",
+        xy=(15.5, 0),
+        xytext=(14, -8.0),
+        arrowprops={"arrowstyle": "<-", "connectionstyle": "arc3, rad=-0.2"},
+    )
 
-    plt.annotate(r'$d_x$', xy=(-17, 7), color='blue', fontsize=16)
-    plt.annotate(r'$d_y$', xy=(-4, -8), color='red', fontsize=16)
+    plt.annotate(r"$d_x$", xy=(-17, 7), color="blue", fontsize=16)
+    plt.annotate(r"$d_y$", xy=(-4, -8), color="red", fontsize=16)
 
     plt.xlim(-30, 30)
     plt.ylim(30, -30)  # inverted to match image coordinates!
-    plt.axis('off')
+    plt.axis("off")
 
 
-def plot_visible_dotted_line(xpts, ypts, color=('#FFD700', '#0057B8')):
+def plot_visible_dotted_line(xpts, ypts, color=("#FFD700", "#0057B8")):
     """Draw a dotted line that is is visible against images.
-    
+
     Args:
         xpts: x-coordinates of the line
         ypts: y-coordinates of the line
         color: (optional) color of the line (a tuple describing the colors)
     """
-    plt.plot(xpts, ypts, '-', color=color[0])
-    plt.plot(xpts, ypts, ':', color=color[1])
+    plt.plot(xpts, ypts, "-", color=color[0])
+    plt.plot(xpts, ypts, ":", color=color[1])
 
 
-def plot_image_and_fit(o_image,
-                       pixel_size=None,
-                       vmin=None,
-                       vmax=None,
-                       units='µm',
-                       crop=False,
-                       colorbar=False,
-                       cmap='gist_ncar',
-                       corner_fraction=0.035,
-                       nT=3,
-                       iso_noise=True,
-                       **kwargs):
+def plot_image_and_fit(
+    o_image,
+    pixel_size=None,
+    vmin=None,
+    vmax=None,
+    units="µm",
+    crop=False,
+    colorbar=False,
+    cmap="gist_ncar",
+    corner_fraction=0.035,
+    nT=3,
+    iso_noise=True,
+    **kwargs,
+):
     """
     Plot the image, fitted ellipse, integration area, and semi-major/minor axes.
 
@@ -183,11 +202,11 @@ def plot_image_and_fit(o_image,
         phi: angle that elliptical beam is rotated [radians]
     """
     # only pass along arguments that apply to beam_size()
-    beamsize_keys = ['mask_diameters', 'max_iter', 'phi']
+    beamsize_keys = ["mask_diameters", "max_iter", "phi"]
     bs_args = dict((k, kwargs[k]) for k in beamsize_keys if k in kwargs)
-    bs_args['iso_noise'] = iso_noise
-    bs_args['nT'] = nT
-    bs_args['corner_fraction'] = corner_fraction
+    bs_args["iso_noise"] = iso_noise
+    bs_args["nT"] = nT
+    bs_args["corner_fraction"] = corner_fraction
 
     # find center and diameters
     xc, yc, dx, dy, phi = lbs.beam_size(o_image, **bs_args)
@@ -195,10 +214,10 @@ def plot_image_and_fit(o_image,
     # establish scale and correct label
     if pixel_size is None:
         scale = 1
-        label = 'Pixels'
+        label = "Pixels"
     else:
         scale = pixel_size
-        label = 'Position (%s)' % units
+        label = "Position (%s)" % units
 
     # crop image if necessary
     if isinstance(crop, list):
@@ -251,16 +270,18 @@ def plot_image_and_fit(o_image,
     return xc * scale, yc * scale, dx * scale, dy * scale, phi
 
 
-def plot_image_analysis(o_image,
-                        title='Original',
-                        pixel_size=None,
-                        units='µm',
-                        crop=False,
-                        cmap='gist_ncar',
-                        corner_fraction=0.035,
-                        nT=3,
-                        iso_noise=True,
-                        **kwargs):
+def plot_image_analysis(
+    o_image,
+    title="Original",
+    pixel_size=None,
+    units="µm",
+    crop=False,
+    cmap="gist_ncar",
+    corner_fraction=0.035,
+    nT=3,
+    iso_noise=True,
+    **kwargs,
+):
     """
     Create a visual report for image fitting.
 
@@ -292,10 +313,12 @@ def plot_image_analysis(o_image,
         nothing
     """
     # only pass along arguments that apply to beam_size()
-    bs_args = dict((k, kwargs[k]) for k in ['mask_diameters', 'max_iter', 'phi'] if k in kwargs)
-    bs_args['iso_noise'] = iso_noise
-    bs_args['nT'] = nT
-    bs_args['corner_fraction'] = corner_fraction
+    bs_args = dict(
+        (k, kwargs[k]) for k in ["mask_diameters", "max_iter", "phi"] if k in kwargs
+    )
+    bs_args["iso_noise"] = iso_noise
+    bs_args["nT"] = nT
+    bs_args["corner_fraction"] = corner_fraction
 
     # find center and diameters
     xc, yc, dx, dy, phi = lbs.beam_size(o_image, **bs_args)
@@ -303,13 +326,13 @@ def plot_image_analysis(o_image,
     # determine scaling and labels
     if pixel_size is None:
         scale = 1
-        unit_str = ''
-        units = 'pixels'
-        label = 'Pixels from Center'
+        unit_str = ""
+        units = "pixels"
+        label = "Pixels from Center"
     else:
         scale = pixel_size
-        unit_str = '(%s)' % units
-        label = 'Distance from Center %s' % unit_str
+        unit_str = f"[{units}]"
+        label = f"Distance from Center {unit_str}"
 
     # crop image as appropriate
     if isinstance(crop, list):
@@ -324,8 +347,9 @@ def plot_image_analysis(o_image,
         image = o_image
 
     # subtract background
-    working_image = lbs.subtract_iso_background(image, corner_fraction=corner_fraction,
-                                                nT=nT, iso_noise=iso_noise)
+    working_image = lbs.subtract_iso_background(
+        image, corner_fraction=corner_fraction, nT=nT, iso_noise=iso_noise
+    )
     bkgnd, _ = lbs.iso_background(image, corner_fraction=corner_fraction, nT=nT)
 
     min_ = image.min()
@@ -347,8 +371,8 @@ def plot_image_analysis(o_image,
     d_min_s = r_min_s * 2
 
     # define the colors
-    minor_color = '#00FF00'
-    major_color = '#FF0000'
+    minor_color = "#00FF00"
+    major_color = "#FF0000"
 
     plt.subplots(2, 2, figsize=(7, 6))
     # plt.subplots_adjust(right=1.0)
@@ -358,8 +382,8 @@ def plot_image_analysis(o_image,
     im = plt.imshow(image, cmap=cmap)
     plt.colorbar(im, fraction=0.046 * v_s / h_s, pad=0.04)
     plt.clim(min_, max_)
-    plt.xlabel('Position (pixels)')
-    plt.ylabel('Position (pixels)')
+    plt.xlabel("Position [px]")
+    plt.ylabel("Position [px]")
     plt.title(title)
 
     # working image
@@ -372,20 +396,24 @@ def plot_image_analysis(o_image,
     # plot minor and major axes
     xp, yp = lbs.axes_arrays(xc, yc, dx, dy, phi) * scale
     # minor axis
-    plot_visible_dotted_line(xp[3:] - xc_s, yp[3:] - yc_s, color=(minor_color, minor_color))
+    plot_visible_dotted_line(
+        xp[3:] - xc_s, yp[3:] - yc_s, color=(minor_color, minor_color)
+    )
     # major axis
-    plot_visible_dotted_line(xp[:2] - xc_s, yp[:2] - yc_s, color=(major_color, major_color))
+    plot_visible_dotted_line(
+        xp[:2] - xc_s, yp[:2] - yc_s, color=(major_color, major_color)
+    )
 
     # xp, yp = lbs.rotated_rect_arrays(xc, yc, dx, dy, phi) * scale
     # plot_visible_dotted_line(xp - xc_s, yp - yc_s)
 
     plt.colorbar(im, fraction=0.046 * v_s / h_s, pad=0.04)
-#    plt.clim(min_, max_)
+    #    plt.clim(min_, max_)
     plt.xlim(-xc_s, h_s - xc_s)
     plt.ylim(v_s - yc_s, -yc_s)
-    plt.xlabel('x (%s)' % units)
-    plt.ylabel('y (%s)' % units)
-    plt.title('Background corrected')
+    plt.xlabel(rf"$x$ [{units}]")
+    plt.ylabel(rf"$y$ [{units}]")
+    plt.title("Background corrected")
 
     # plot of values along semi-major axis
     _, _, z, s = lbs.major_axis_arrays(image, xc, yc, dx, dy, phi)
@@ -393,21 +421,21 @@ def plot_image_analysis(o_image,
     baseline = a * np.exp(-2) + bkgnd
 
     plt.subplot(2, 2, 3)
-    plt.plot(s * scale, z, 's', markersize=2, color=major_color)
-    plt.plot(s * scale, z, '-', lw=0.5, color=major_color)
+    plt.plot(s * scale, z, "s", markersize=2, color=major_color)
+    plt.plot(s * scale, z, "-", lw=0.5, color=major_color)
     # ~~~~~
     # z_values = bkgnd + a * np.exp(-2 * (s / r_major)**2)
-    fit_params = lbs.fit_bessel(s*scale, z)
-    z_values = lbs.bessel_fit_function(s*scale, *fit_params)
-    plt.plot(s * scale, z_values, 'k')
+    fit_params = lbs.fit_bessel(s * scale, z)
+    z_values = lbs.bessel_fit_function(s * scale, *fit_params)
+    plt.plot(s * scale, z_values, "k", linewidth=0.8)
     # plt.annotate('', (-r_mag_s, baseline), (r_mag_s, baseline),
     #              arrowprops={'arrowstyle': '<->'})
     # plt.text(0, 1.1 * baseline, 'dx=%.0f %s' % (d_mag_s, units), va='bottom', ha='center')
-    plt.text(0, bkgnd + a, '    Bessel Fit')
+    plt.text(5, bkgnd + a, "Bessel Fit")
     # ~~~~~
-    plt.xlabel('x (%s)' % units)
-    plt.ylabel('Pixel intensity') 
-    plt.title('Major Axis')
+    plt.xlabel(rf"$x$ [{units}]")
+    plt.ylabel("Pixel intensity")
+    plt.title("Major Axis")
     # plt.gca().set_ylim(bottom=0)
 
     # plot of values along semi-minor axis
@@ -416,40 +444,42 @@ def plot_image_analysis(o_image,
     baseline = a * np.exp(-2) + bkgnd
 
     plt.subplot(2, 2, 4)
-    plt.plot(s * scale, z, 's', markersize=2, color=minor_color)
-    plt.plot(s * scale, z, '-', lw=0.5, color=minor_color)
+    plt.plot(s * scale, z, "s", markersize=2, color=minor_color)
+    plt.plot(s * scale, z, "-", lw=0.5, color=minor_color)
     # ~~~~~
-    z_values = bkgnd + a * np.exp(-2 * (s / r_minor)**2)
-    fit_params = lbs.fit_bessel(s*scale, z)
-    z_values = lbs.bessel_fit_function(s*scale, *fit_params)
-    plt.plot(s * scale, z_values, 'k')
+    z_values = bkgnd + a * np.exp(-2 * (s / r_minor) ** 2)
+    fit_params = lbs.fit_bessel(s * scale, z)
+    z_values = lbs.bessel_fit_function(s * scale, *fit_params)
+    plt.plot(s * scale, z_values, "k", linewidth=0.8)
     # plt.annotate('', (-r_min_s, baseline), (r_min_s, baseline),
     #              arrowprops={'arrowstyle': '<->'})
     # plt.text(0, 1.1 * baseline, 'dy=%.0f %s' % (d_min_s, units), va='bottom', ha='center')
-    plt.text(0, bkgnd + a, '    Bessel Fit')
+    plt.text(5, bkgnd + a, "Bessel Fit")
     # ~~~~~
-    plt.xlabel('y (%s)' % units)
-    plt.ylabel('Pixel intensity')
-    plt.title('Minor Axis')
+    plt.xlabel(rf"$y$ [{units}]")
+    plt.ylabel("Pixel intensity")
+    plt.title("Minor Axis")
     # plt.gca().set_ylim(bottom=0)
 
     # add more horizontal space between plots
     plt.subplots_adjust(wspace=0.3)
 
 
-def plot_image_montage(images,
-                       z=None,
-                       cols=3,
-                       pixel_size=None,
-                       vmax=None,
-                       vmin=None,
-                       units='µm',
-                       crop=False,
-                       cmap='gist_ncar',
-                       corner_fraction=0.035,
-                       nT=3,
-                       iso_noise=True,
-                       **kwargs):
+def plot_image_montage(
+    images,
+    z=None,
+    cols=3,
+    pixel_size=None,
+    vmax=None,
+    vmin=None,
+    units="µm",
+    crop=False,
+    cmap="gist_ncar",
+    corner_fraction=0.035,
+    nT=3,
+    iso_noise=True,
+    **kwargs,
+):
     """
     Create a beam size montage for a set of images.
 
@@ -493,19 +523,21 @@ def plot_image_montage(images,
 
     # when pixel_size is not specified, units default to pixels
     if pixel_size is None:
-        units = 'pixels'
+        units = "pixels"
 
     # gather all the options that are fixed for every image in the montage
-    options = {'pixel_size': pixel_size,
-               'vmax': vmax,
-               'vmin': vmin,
-               'units': units,
-               'crop': crop,
-               'cmap': cmap,
-               'corner_fraction': corner_fraction,
-               'nT': nT,
-               'iso_noise': iso_noise,
-               **kwargs}
+    options = {
+        "pixel_size": pixel_size,
+        "vmax": vmax,
+        "vmin": vmin,
+        "units": units,
+        "crop": crop,
+        "cmap": cmap,
+        "corner_fraction": corner_fraction,
+        "nT": nT,
+        "iso_noise": iso_noise,
+        **kwargs,
+    }
 
     # now set up the grid of subplots
     plt.subplots(rows, cols, figsize=(cols * 5, rows * 5))
@@ -520,7 +552,7 @@ def plot_image_montage(images,
         _, _, dx[i], dy[i], _ = plot_image_and_fit(im, **options, colorbar=cb)
 
         # add a title
-        if units == 'mm':
+        if units == "mm":
             s = "dx=%.2f%s, dy=%.2f%s" % (dx[i], units, dy[i], units)
         else:
             s = "dx=%.0f%s, dy=%.0f%s" % (dx[i], units, dy[i], units)
